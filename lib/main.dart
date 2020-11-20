@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flare_flutter/flare_actor.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,12 +20,23 @@ class MyApp extends StatelessWidget {
 class HomeContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text(
-        'Flutter123A',
-        textDirection: TextDirection.ltr,
-        style: TextStyle(fontSize: 40, color: Colors.yellow),
-      ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width,
+          height: 780,
+          // decoration: BoxDecoration(
+          //   border: Border.all(color: Colors.red, width: 3),
+          // ),
+          child: FlareActor(
+            "assets/animations/Login.flr",
+            animation: "Untitled",
+            alignment: Alignment.center,
+            fit: BoxFit.contain,
+          ),
+        ),
+      ],
     );
   }
 }
