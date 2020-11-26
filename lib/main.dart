@@ -1,42 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:flare_flutter/flare_actor.dart';
+import './pages/splash_page.dart';
+import './routes/Application.dart';
+import './routes/routers.dart';
+import 'package:fluro/fluro.dart';
 
 void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  // @override
+  // Widget build(BuildContext context) {
+  //   final router = FluroRouter();
+  //   Routes.configureRoutes(router);
+  //   Application.router = router;
+  //
+  //   return Container(
+  //     child: MaterialApp(
+  //         title: "演示demo",
+  //         debugShowCheckedModeBanner: false,
+  //         theme: ThemeData(primaryColor: Colors.white),
+  //         onGenerateRoute: Application.router.generator,
+  //         home: SplashPage()),
+  //   );
+  // }
+
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-          appBar: AppBar(title: Text('FLUTTER')),
-          body: HomeContent(),
-        ),
-        theme: ThemeData(primarySwatch: Colors.yellow));
+  State<StatefulWidget> createState() {
+    return AppState();
   }
 }
 
-class HomeContent extends StatelessWidget {
+class AppState extends State<MyApp> {
+  AppState() {
+    final router = FluroRouter();
+    Routes.configureRoutes(router);
+    Application.router = router;
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Container(
-          width: MediaQuery.of(context).size.width,
-          height: 780,
-          // decoration: BoxDecoration(
-          //   border: Border.all(color: Colors.red, width: 3),
-          // ),
-          child: FlareActor(
-            "assets/animations/Login.flr",
-            animation: "Untitled",
-            alignment: Alignment.center,
-            fit: BoxFit.contain,
-          ),
-        ),
-      ],
+    return Container(
+      child: MaterialApp(
+          title: "演示demo",
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(primaryColor: Colors.white),
+          onGenerateRoute: Application.router.generator,
+          home: SplashPage()),
     );
   }
 }
