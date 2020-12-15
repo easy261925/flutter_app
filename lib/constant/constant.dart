@@ -1,7 +1,7 @@
 import 'package:event_bus/event_bus.dart';
 
 class Constant {
-  static const userServiceUrl = 'http://127.0.0.1:8150/';
+  static const userServiceUrl = 'http://192.168.3.101:8150/';
 
   static const String ASSETS_IMG = 'assets/images/';
 

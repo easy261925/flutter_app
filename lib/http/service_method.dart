@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import '../constant/constant.dart';
 import '../utils/toast_util.dart';
+import '../utils/user_util.dart';
 
 class DioManager {
   //写一个单例
@@ -25,17 +26,18 @@ class DioManager {
     // dio.options.baseUrl = Constant.baseUrl;
     dio.options.connectTimeout = 5000;
     dio.options.receiveTimeout = 3000;
+    dio.options.headers = {'token': UserUtil.getUserInfo().token};
     // dio.interceptors.add(LogInterceptor(responseBody: true)); //是否开启请求日志
     //  dio.interceptors.add(CookieManager(CookieJar()));//缓存相关类，具体设置见https://github.com/flutterchina/cookie_jar
   }
 
-//get请求
-  get(String url, FormData params, Function successCallBack,
+  // get请求
+  get(String url, Map params, Function successCallBack,
       Function errorCallBack) async {
-    _requestHttp(url, successCallBack, 'get', {}, errorCallBack);
+    _requestHttp(url, successCallBack, 'get', params, errorCallBack);
   }
 
-  //post请求
+  // post请求
   post(String url, params, Function successCallBack,
       Function errorCallBack) async {
     _requestHttp(url, successCallBack, "post", params, errorCallBack);
@@ -52,12 +54,13 @@ class DioManager {
     Response response;
     try {
       if (method == 'get') {
-        // if (params != null) {
-        //   response = await dio.get(url,
-        //       queryParameters: Map.fromEntries(params.fields));
-        // } else {
-        //   response = await dio.get(url);
-        // }
+        if (params != null) {
+          print('_____params:${params}');
+          response = await dio.get(url,
+              queryParameters: new Map<String, dynamic>.from(params));
+        } else {
+          response = await dio.get(url);
+        }
       } else if (method == 'post') {
         if (params != null) {
           response = await dio.post(url, data: params);
@@ -95,7 +98,6 @@ class DioManager {
 
     String dataStr = json.encode(response.data);
     Map<String, dynamic> dataMap = json.decode(dataStr);
-    print('dataMap:$dataMap');
     if (dataMap == null) {
       _error(errorCallBack, dataMap['msg'].toString());
     } else if (successCallBack != null) {

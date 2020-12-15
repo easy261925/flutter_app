@@ -5,6 +5,7 @@ import '../constant/constant.dart';
 import '../utils/toast_util.dart';
 import '../pages/home/home_page.dart';
 import '../pages/mine/mine_page.dart';
+import '../pages/message/message_page.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -76,7 +77,7 @@ class _IndexPageState extends State<IndexPage> {
     HomePage(),
     HomePage(),
     HomePage(),
-    HomePage(),
+    MessagePage(),
     MinePage(),
   ];
 
@@ -92,40 +93,45 @@ class _IndexPageState extends State<IndexPage> {
       BottomNavigationBarItem(icon: getTabIcon(4), title: getTabTitle(4)),
     ];
 
-    return SafeArea(
-      child: WillPopScope(
-          child: Scaffold(
-            backgroundColor: Color.fromARGB(244, 245, 245, 1),
-            bottomNavigationBar: BottomNavigationBar(
-              type: BottomNavigationBarType.fixed,
-              currentIndex: _tabIndex,
-              items: bottomTabs,
-              onTap: (index) async {
-                print('index:$index');
-                setState(() {
-                  _tabIndex = index;
-                  currentPage = tabBodies[_tabIndex];
-                });
-              },
-            ),
-            body: IndexedStack(
-              index: _tabIndex,
-              children: tabBodies,
-            ),
-          ),
-          // ignore: missing_return
-          onWillPop: () {
-            // 点击返回键的操作
-            if (lastPopTime == null ||
-                DateTime.now().difference(lastPopTime) > Duration(seconds: 2)) {
-              lastPopTime = DateTime.now();
-              ToastUtil.show('再按一次退出应用');
-            } else {
-              lastPopTime = DateTime.now();
-              // 退出app
-              SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-            }
-          }),
-    );
+    return Container(
+        color: Colors.white,
+        child: SafeArea(
+          child: WillPopScope(
+              child: Scaffold(
+                backgroundColor: Color.fromARGB(244, 245, 245, 1),
+                bottomNavigationBar: BottomNavigationBar(
+                  elevation: 0,
+                  // 阴影
+                  type: BottomNavigationBarType.fixed,
+                  currentIndex: _tabIndex,
+                  items: bottomTabs,
+                  backgroundColor: Colors.white,
+                  onTap: (index) async {
+                    setState(() {
+                      _tabIndex = index;
+                      currentPage = tabBodies[_tabIndex];
+                    });
+                  },
+                ),
+                body: IndexedStack(
+                  index: _tabIndex,
+                  children: tabBodies,
+                ),
+              ),
+              // ignore: missing_return
+              onWillPop: () {
+                // 点击返回键的操作
+                if (lastPopTime == null ||
+                    DateTime.now().difference(lastPopTime) >
+                        Duration(seconds: 2)) {
+                  lastPopTime = DateTime.now();
+                  ToastUtil.show('再按一次退出应用');
+                } else {
+                  lastPopTime = DateTime.now();
+                  // 退出app
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                }
+              }),
+        ));
   }
 }

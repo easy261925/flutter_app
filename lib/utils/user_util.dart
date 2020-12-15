@@ -34,7 +34,7 @@ class UserUtil {
       int isvertify = data['isvertify'];
 
       String token = data['token'];
-      List<String> auth = data['auth'];
+      List<dynamic> auth = data['auth'];
 
       SpUtil.putString(SP_USER_ID, id);
       SpUtil.putString(SP_USER_NAME, username);
@@ -47,9 +47,11 @@ class UserUtil {
       SpUtil.putBool(SP_IS_ALLOGIN, true);
       SpUtil.putInt(SP_USER_ISMEMBER, ismember);
       SpUtil.putInt(SP_USER_ISVERTIFY, isvertify);
-
-      SpUtil.putString(SP_TOKEN, token);
-      SpUtil.putStringList(SP_AUTH, auth);
+      if (token != null) {
+        SpUtil.putString(SP_TOKEN, token);
+      }
+      // TODO
+      // SpUtil.putStringList(SP_AUTH, auth);
 
       User userInfo = User(
           id: id,
@@ -83,7 +85,7 @@ class UserUtil {
     userInfo.ismember = SpUtil.getInt(SP_USER_ISMEMBER);
     userInfo.isvertify = SpUtil.getInt(SP_USER_ISVERTIFY);
     userInfo.token = SpUtil.getString(SP_TOKEN);
-    userInfo.auth = SpUtil.getStringList(SP_AUTH);
+    // userInfo.auth = SpUtil.getStringList(SP_AUTH);
     return userInfo;
   }
 

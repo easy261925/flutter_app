@@ -36,7 +36,6 @@ class _LoginPageState extends State<LoginPage> {
                 margin: EdgeInsets.only(left: 20, top: 10, right: 20),
                 child: AccountEditText(
                   contentStrCallBack: (content) {
-                    print('username: $content');
                     _inputAccount = content;
                     setState(() {});
                   },
@@ -109,14 +108,9 @@ Widget buildLoginBtn(context) {
                 'password': _inputPwd,
                 'type': 'account'
               }, (response) {
-                print('response+++++++++++:$response');
-                print(response['success']);
                 if (response['success']) {
                   // TODO
                   UserUtil.saveUserInfo({
-                    'id': '1',
-                    'username': _inputAccount,
-                    'nick': 'nick',
                     'token': response['data']['token'],
                     'auth': response['data']['currentAuthority']
                   });
